@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>여행 일정 | TRIPPY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body>
+  <header class="top-nav">
+    <div class="nav-left">
+      <div class="logo" onclick="window.location.href='index.html'">
+        <span class="logo-mark">T</span>
+        <span class="logo-text">TRIPPY</span>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">홈</a>
+        <a href="plan.html">여행 계획</a>
+        <a href="my-trips.html">내 여행</a>
+        <a href="calendar.html">캘린더</a>
+      </nav>
+    </div>
+    <div class="nav-actions">
+      <button class="pill ghost" onclick="window.location.href='my-trips.html'">내 여행</button>
+      <button class="pill primary" id="syncCalendarBtn">Google Calendar 동기화</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="schedule-section">
+      <div class="schedule-header">
+        <div>
+          <h1 id="tripTitle">제주도 3박 4일 여행</h1>
+          <p class="trip-dates" id="tripDates">2024.01.15 - 2024.01.18</p>
+        </div>
+        <div class="schedule-actions">
+          <button class="pill ghost" id="editBtn">수정</button>
+          <button class="pill primary" id="saveBtn">저장</button>
+        </div>
+      </div>
+
+      <div class="schedule-layout">
+        <!-- Left: Calendar/List View -->
+        <div class="schedule-list">
+          <div class="day-tabs">
+            <button class="day-tab active" data-day="0">Day 1</button>
+            <button class="day-tab" data-day="1">Day 2</button>
+            <button class="day-tab" data-day="2">Day 3</button>
+            <button class="day-tab" data-day="3">Day 4</button>
+          </div>
+
+          <div class="day-content">
+            <div class="day-schedule active" data-day="0">
+              <div class="schedule-item" data-lat="33.4996" data-lng="126.5312" data-time="09:00">
+                <div class="item-time">09:00</div>
+                <div class="item-content">
+                  <h4>공항 도착</h4>
+                  <p>제주국제공항</p>
+                  <span class="item-type">이동</span>
+                </div>
+              </div>
+              <div class="schedule-item" data-lat="33.4996" data-lng="126.5312" data-time="10:00">
+                <div class="item-time">10:00</div>
+                <div class="item-content">
+                  <h4>렌터카 픽업</h4>
+                  <p>제주국제공항 렌터카</p>
+                  <span class="item-type">준비</span>
+                </div>
+              </div>
+              <div class="schedule-item" data-lat="33.4996" data-lng="126.5312" data-time="11:00">
+                <div class="item-time">11:00</div>
+                <div class="item-content">
+                  <h4>호텔 체크인</h4>
+                  <p>제주시 호텔</p>
+                  <span class="item-type">숙소</span>
+                </div>
+              </div>
+              <div class="schedule-item" data-lat="33.5140" data-lng="126.5297" data-time="12:30">
+                <div class="item-time">12:30</div>
+                <div class="item-content">
+                  <h4>점심 식사</h4>
+                  <p>제주 흑돼지 맛집</p>
+                  <span class="item-type">식사</span>
+                </div>
+              </div>
+              <div class="schedule-item" data-lat="33.4996" data-lng="126.5312" data-time="14:00">
+                <div class="item-time">14:00</div>
+                <div class="item-content">
+                  <h4>용두암</h4>
+                  <p>제주시 대표 관광지</p>
+                  <span class="item-type">관광</span>
+                </div>
+              </div>
+              <div class="schedule-item" data-lat="33.5140" data-lng="126.5297" data-time="18:00">
+                <div class="item-time">18:00</div>
+                <div class="item-content">
+                  <h4>저녁 식사</h4>
+                  <p>제주 해산물 식당</p>
+                  <span class="item-type">식사</span>
+                </div>
+              </div>
+            </div>
+            <!-- Day 2, 3, 4 will be dynamically generated -->
+          </div>
+        </div>
+
+        <!-- Right: Map View -->
+        <div class="schedule-map">
+          <div id="map" class="map-container"></div>
+          <div class="map-legend">
+            <div class="legend-item">
+              <span class="legend-dot" style="background: #0bd19d;"></span>
+              <span>관광지</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot" style="background: #ff6b6b;"></span>
+              <span>식사</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot" style="background: #4dabf7;"></span>
+              <span>숙소</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-dot" style="background: #ffd43b;"></span>
+              <span>이동</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="logo">TRIPPY</div>
+    <div class="footer-links">
+      <a href="#">회사소개</a>
+      <a href="#">이용약관</a>
+      <a href="#">개인정보처리방침</a>
+      <a href="#">고객센터</a>
+    </div>
+    <p class="footnote">© TRIPPY. All rights reserved.</p>
+  </footer>
+
+  <script src="schedule.js"></script>
+</body>
+</html>
+

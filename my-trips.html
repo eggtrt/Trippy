@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>내 여행 | TRIPPY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top-nav">
+    <div class="nav-left">
+      <div class="logo" onclick="window.location.href='index.html'">
+        <span class="logo-mark">T</span>
+        <span class="logo-text">TRIPPY</span>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">홈</a>
+        <a href="plan.html">여행 계획</a>
+        <a href="my-trips.html" class="active">내 여행</a>
+        <a href="calendar.html">캘린더</a>
+      </nav>
+    </div>
+    <div class="nav-actions">
+      <button class="pill ghost" id="userBtn">
+        <span id="userName">사용자</span>
+      </button>
+      <button class="pill primary" onclick="window.location.href='plan.html'">새 여행 계획</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="my-trips-section">
+      <div class="trips-header">
+        <h1>내 여행</h1>
+        <p>만든 여행 계획을 확인하고 관리하세요</p>
+      </div>
+
+      <div class="trips-grid">
+        <div class="trip-card" onclick="window.location.href='schedule.html'">
+          <div class="trip-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <div class="trip-status">진행중</div>
+          </div>
+          <div class="trip-info">
+            <h3>제주도 3박 4일 여행</h3>
+            <p class="trip-date">2024.01.15 - 2024.01.18</p>
+            <div class="trip-tags">
+              <span class="trip-tag">힐링</span>
+              <span class="trip-tag">맛집</span>
+            </div>
+            <div class="trip-meta">
+              <span>✓ Google Calendar 연동됨</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="trip-card" onclick="window.location.href='schedule.html'">
+          <div class="trip-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+            <div class="trip-status">예정</div>
+          </div>
+          <div class="trip-info">
+            <h3>도쿄 4박 5일 여행</h3>
+            <p class="trip-date">2024.02.10 - 2024.02.14</p>
+            <div class="trip-tags">
+              <span class="trip-tag">관광</span>
+              <span class="trip-tag">쇼핑</span>
+            </div>
+            <div class="trip-meta">
+              <span>✓ Google Calendar 연동됨</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="trip-card" onclick="window.location.href='plan.html'">
+          <div class="trip-image" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+            <div class="trip-status new">새 여행</div>
+          </div>
+          <div class="trip-info">
+            <h3>새 여행 계획 만들기</h3>
+            <p class="trip-date">+ 버튼을 눌러 시작하세요</p>
+            <div class="trip-meta">
+              <span>→ 여행 계획 시작</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="logo">TRIPPY</div>
+    <div class="footer-links">
+      <a href="#">회사소개</a>
+      <a href="#">이용약관</a>
+      <a href="#">개인정보처리방침</a>
+      <a href="#">고객센터</a>
+    </div>
+    <p class="footnote">© TRIPPY. All rights reserved.</p>
+  </footer>
+</body>
+</html>
+
