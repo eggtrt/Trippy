@@ -1,0 +1,19 @@
+{
+  "name": "trippy-screenshots",
+  "version": "1.0.0",
+  "description": "TRIPPY 웹사이트 스크린샷 생성 도구",
+  "main": "screenshot.js",
+  "scripts": {
+    "screenshot": "node screenshot.js",
+    "screenshot:all": "node screenshot.js --all"
+  },
+  "keywords": ["screenshot", "puppeteer"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^21.5.0"
+  }
+}
+
+
+

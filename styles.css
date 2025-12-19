@@ -852,6 +852,225 @@ a {
   margin: 0;
 }
 
+/* Method Selection */
+.method-selection {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.method-card {
+  background: var(--surface);
+  border: 2px solid var(--line);
+  border-radius: 20px;
+  padding: 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.method-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow);
+}
+
+.method-card.active {
+  border-color: var(--accent);
+  background: linear-gradient(135deg, rgba(11, 209, 157, 0.05), rgba(0, 182, 122, 0.05));
+  box-shadow: 0 8px 20px rgba(11, 209, 157, 0.2);
+}
+
+.method-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+}
+
+.method-card h3 {
+  margin: 0 0 12px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.method-card p {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+.method-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.method-features li {
+  padding: 8px 0;
+  font-size: 14px;
+  color: var(--text);
+}
+
+/* Chat Mode */
+.chat-mode-container {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.chat-interface-full {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  height: 600px;
+}
+
+.chat-messages-full {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-right: 8px;
+}
+
+.chat-messages-full::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-messages-full::-webkit-scrollbar-track {
+  background: var(--bg);
+  border-radius: 3px;
+}
+
+.chat-messages-full::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 3px;
+}
+
+.chat-messages-full::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+.msg-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.chat-input-area-full {
+  display: flex;
+  gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.chat-input-full {
+  flex: 1;
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-size: 15px;
+  font-family: inherit;
+}
+
+.chat-input-full:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.chat-send-btn-full {
+  padding: 14px 24px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chat-send-btn-full:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(11, 209, 157, 0.3);
+}
+
+.chat-info-panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 24px;
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+}
+
+.chat-info-panel h3 {
+  margin: 0 0 20px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.info-collected {
+  margin-bottom: 24px;
+}
+
+.info-item {
+  margin-bottom: 16px;
+  font-size: 14px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.info-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.info-item strong {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+.info-item span {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.chat-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chat-actions .btn-back,
+.chat-actions .btn-primary {
+  width: 100%;
+}
+
 /* Region Selection */
 .region-grid {
   display: grid;
@@ -924,6 +1143,114 @@ a {
   background: linear-gradient(135deg, var(--accent), var(--accent-dark));
   border-color: transparent;
   color: #fff;
+}
+
+/* Custom Period Input */
+.period-custom {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.custom-period-toggle {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.period-btn-custom {
+  padding: 14px 28px;
+  background: var(--surface);
+  border: 2px dashed var(--line);
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.period-btn-custom:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(11, 209, 157, 0.05);
+}
+
+.period-btn-custom.active {
+  border-color: var(--accent);
+  border-style: solid;
+  color: var(--accent);
+  background: rgba(11, 209, 157, 0.05);
+}
+
+.custom-period-input {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 24px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.custom-input-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  justify-content: center;
+}
+
+.custom-input-group label {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 15px;
+}
+
+.custom-number-input {
+  width: 80px;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  font-family: inherit;
+}
+
+.custom-number-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(11, 209, 157, 0.1);
+}
+
+.custom-separator {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.custom-input-hint {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  margin: 12px 0 16px;
+}
+
+.btn-apply-custom {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-apply-custom:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(11, 209, 157, 0.3);
 }
 
 /* Who Selection */
@@ -1493,6 +1820,20 @@ a {
   .style-grid {
     grid-template-columns: 1fr;
   }
+  
+  .custom-period-input {
+    padding: 20px;
+  }
+  
+  .custom-input-group {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  
+  .custom-number-input {
+    width: 70px;
+    padding: 10px 12px;
+  }
 
   .schedule-section {
     padding: 20px 16px;
@@ -1580,28 +1921,50 @@ a {
 .cal-time-column {
   width: 80px;
   flex-shrink: 0;
-  border-right: 1px solid var(--line);
+  border-right: 2px solid var(--line);
   background: var(--bg);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.cal-time-column::-webkit-scrollbar {
+  width: 6px;
+}
+
+.cal-time-column::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+.cal-time-column::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 3px;
 }
 
 .cal-time-header {
   height: 60px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 2px solid var(--line);
   background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .cal-time-slot {
   height: 50px;
   min-height: 50px;
+  max-height: 50px;
   border-bottom: 1px solid var(--line);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  justify-content: flex-end;
   padding: 6px 8px;
   font-size: 12px;
   color: var(--muted);
   font-weight: 400;
   background: var(--surface);
   box-sizing: border-box;
+  text-align: right;
+  flex-shrink: 0;
 }
 
 .cal-days-column {
@@ -1612,11 +1975,14 @@ a {
 
 .cal-days-header {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  border-bottom: 1px solid var(--line);
+  grid-template-columns: repeat(7, 1fr);
+  border-bottom: 2px solid var(--line);
   background: var(--bg);
   height: 60px;
   min-height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .cal-day-header {
@@ -1668,8 +2034,10 @@ a {
 
 .cal-grid-week {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .cal-day-column {
@@ -1685,11 +2053,18 @@ a {
 .cal-hour-slot {
   height: 50px;
   min-height: 50px;
+  max-height: 50px;
   border-bottom: 1px solid var(--line);
   position: relative;
   padding: 2px 6px;
   background: var(--surface);
   box-sizing: border-box;
+  border-right: 1px solid var(--line);
+  flex-shrink: 0;
+}
+
+.cal-day-column:last-child .cal-hour-slot {
+  border-right: none;
 }
 
 .cal-hour-slot:last-child {
@@ -1708,11 +2083,12 @@ a {
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  overflow: visible;
+  overflow: hidden;
   z-index: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  box-sizing: border-box;
 }
 
 .cal-event-block:hover {
@@ -1886,24 +2262,68 @@ a {
   color: var(--text);
   font-size: 20px;
   transition: all 0.2s ease;
+  font-weight: 600;
 }
 
 .cal-nav-btn-main:hover {
   background: var(--bg);
   border-color: var(--accent);
+  color: var(--accent);
 }
 
 .calendar-actions {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 12px;
+}
+
+.view-toggle {
+  display: flex;
+  gap: 4px;
+  background: var(--bg);
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.view-btn {
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-btn:hover {
+  color: var(--text);
+  background: rgba(11, 209, 157, 0.1);
+}
+
+.view-btn.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  color: #fff;
 }
 
 .calendar-main {
+  display: none;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 24px;
   box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.calendar-main.active {
+  display: block;
+}
+
+.calendar-main.week-view,
+.calendar-main.day-view {
+  padding: 0;
+  overflow: hidden;
 }
 
 .cal-weekdays {
@@ -1944,6 +2364,17 @@ a {
   cursor: pointer;
   transition: all 0.2s ease;
   background: var(--bg);
+  position: relative;
+}
+
+.cal-day-events {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 4px;
+  flex: 1;
+  overflow: hidden;
 }
 
 .cal-day-main:hover {
@@ -2045,6 +2476,271 @@ a {
   color: var(--muted);
 }
 
+/* Week and Day View Styles */
+.calendar-main.week-view .calendar-week-view {
+  height: calc(100vh - 300px);
+  min-height: 650px;
+  display: flex;
+}
+
+.calendar-header-day {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.calendar-nav-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.cal-day-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  min-width: 250px;
+  text-align: center;
+}
+
+.cal-nav-btn-day {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  color: var(--text);
+  font-size: 18px;
+  transition: all 0.2s ease;
+  font-weight: 600;
+}
+
+.cal-nav-btn-day:hover {
+  background: var(--bg);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.calendar-main.week-view .cal-time-column {
+  width: 80px;
+  border-right: 2px solid var(--line);
+  background: var(--bg);
+  flex-shrink: 0;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.calendar-main.week-view .cal-time-column .cal-time-slot {
+  height: 50px;
+  min-height: 50px;
+  max-height: 50px;
+  margin: 0;
+  padding: 6px 8px;
+  box-sizing: border-box;
+  display: block;
+  border-bottom: 1px solid var(--line);
+}
+
+
+.calendar-main.week-view .cal-days-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-bottom: 2px solid var(--line);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  min-width: 0;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.calendar-main.week-view .cal-day-header {
+  padding: 12px 8px;
+  text-align: center;
+  border-right: 1px solid var(--line);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  margin: 0;
+  position: relative;
+}
+
+.calendar-main.week-view .cal-day-header:last-child {
+  border-right: none;
+}
+
+.calendar-main.week-view .cal-day-header:hover {
+  background: var(--bg);
+}
+
+.calendar-main.week-view .cal-day-header.active {
+  background: rgba(11, 209, 157, 0.1);
+  border-bottom: 2px solid var(--accent);
+}
+
+.calendar-main.week-view .cal-days-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+  width: 100%;
+}
+
+.calendar-main.week-view .cal-grid-week {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+  height: 100%;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.calendar-main.week-view .cal-day-column {
+  border-right: 1px solid var(--line);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.calendar-main.week-view .cal-day-column:last-child {
+  border-right: none;
+}
+
+/* Force exact column alignment - use same grid calculation */
+.calendar-main.week-view .cal-days-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.calendar-main.week-view .cal-grid-week {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+
+/* Remove all spacing and ensure borders align */
+.calendar-main.week-view .cal-day-header {
+  border-right: 1px solid var(--line);
+  margin: 0;
+  padding: 12px 8px;
+}
+
+.calendar-main.week-view .cal-day-column {
+  border-right: 1px solid var(--line);
+  margin: 0;
+  padding: 0;
+}
+
+/* Last column - no border */
+.calendar-main.week-view .cal-day-header:last-child,
+.calendar-main.week-view .cal-day-column:last-child {
+  border-right: none;
+}
+
+/* Ensure exact alignment between header and grid */
+.calendar-main.week-view .cal-days-column {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-width: 0;
+  width: 100%;
+}
+
+.calendar-main.week-view .cal-days-header,
+.calendar-main.week-view .cal-grid-week {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.calendar-main.week-view .cal-hour-slot {
+  height: 50px;
+  min-height: 50px;
+  max-height: 50px;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 2px 6px;
+  display: block;
+}
+
+.calendar-main.day-view .calendar-day-view {
+  height: calc(100vh - 300px);
+  min-height: 650px;
+  display: flex;
+}
+
+.calendar-main.day-view .cal-time-column-day {
+  width: 80px;
+  border-right: 2px solid var(--line);
+  background: var(--bg);
+  flex-shrink: 0;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.calendar-main.day-view .cal-time-column-day .cal-time-slot {
+  height: 50px;
+  min-height: 50px;
+  max-height: 50px;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 6px 8px;
+  box-sizing: border-box;
+  display: block;
+  border-bottom: 1px solid var(--line);
+}
+
+.calendar-main.day-view .cal-day-column-single {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+.calendar-main.day-view .cal-hour-slot {
+  border-right: none;
+  height: 50px;
+  min-height: 50px;
+  max-height: 50px;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 2px 6px;
+  display: block;
+  border-bottom: 1px solid var(--line);
+}
+
 @media (max-width: 1024px) {
   .calendar-container {
     grid-template-columns: 1fr;
@@ -2052,5 +2748,51 @@ a {
 
   .calendar-sidebar {
     position: static;
+  }
+  
+  .method-selection {
+    grid-template-columns: 1fr;
+    max-width: 500px;
+  }
+  
+  .chat-mode-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .chat-info-panel {
+    position: static;
+    margin-top: 24px;
+  }
+  
+  .calendar-main.week-view .calendar-week-view,
+  .calendar-main.day-view .calendar-day-view {
+    height: 500px;
+    min-height: 500px;
+  }
+}
+
+@media (max-width: 720px) {
+  .method-selection {
+    gap: 16px;
+  }
+  
+  .method-card {
+    padding: 24px;
+  }
+  
+  .method-icon {
+    font-size: 36px;
+  }
+  
+  .method-card h3 {
+    font-size: 20px;
+  }
+  
+  .chat-interface-full {
+    height: 500px;
+  }
+  
+  .chat-info-panel {
+    padding: 20px;
   }
 }

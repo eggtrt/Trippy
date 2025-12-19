@@ -35,8 +35,39 @@
     <!-- Plan Creation Flow -->
     <section class="plan-flow-section">
       <div class="plan-container">
+        <!-- Step 0: Choose Method -->
+        <div class="plan-step active" id="step0">
+          <div class="step-header">
+            <h2>어떤 방식으로 여행 계획을 만들까요?</h2>
+            <p class="step-desc">원하는 방식을 선택해주세요.</p>
+          </div>
+          
+          <div class="method-selection">
+            <div class="method-card" data-method="guided">
+              <div class="method-icon">📋</div>
+              <h3>선택지로 만들기</h3>
+              <p>단계별로 선택지를 골라가며<br>체계적으로 계획을 만들어요</p>
+              <ul class="method-features">
+                <li>✓ 빠르고 간단한 선택</li>
+                <li>✓ 명확한 단계별 진행</li>
+                <li>✓ 누락 없이 정보 수집</li>
+              </ul>
+            </div>
+            <div class="method-card" data-method="chat">
+              <div class="method-icon">💬</div>
+              <h3>챗봇과 대화하기</h3>
+              <p>AI 챗봇과 자유롭게 대화하며<br>자연스럽게 계획을 만들어요</p>
+              <ul class="method-features">
+                <li>✓ 자유로운 대화 형식</li>
+                <li>✓ 상세한 요구사항 반영</li>
+                <li>✓ 더 개인화된 계획</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <!-- Step 1: Region Selection -->
-        <div class="plan-step active" id="step1">
+        <div class="plan-step" id="step1">
           <div class="step-header">
             <div class="step-progress">
               <span class="step-number">1</span>
@@ -119,6 +150,23 @@
             <button class="period-btn" data-days="4" data-nights="3">3박 4일</button>
             <button class="period-btn" data-days="5" data-nights="4">4박 5일</button>
             <button class="period-btn" data-days="6" data-nights="5">5박 6일</button>
+          </div>
+          
+          <div class="period-custom">
+            <div class="custom-period-toggle">
+              <button class="period-btn-custom" id="customPeriodBtn">직접 입력하기</button>
+            </div>
+            <div class="custom-period-input" id="customPeriodInput" style="display: none;">
+              <div class="custom-input-group">
+                <label>박</label>
+                <input type="number" id="customNights" min="6" max="30" placeholder="6" class="custom-number-input">
+                <span class="custom-separator">박</span>
+                <input type="number" id="customDays" min="7" max="31" placeholder="7" class="custom-number-input">
+                <span class="custom-separator">일</span>
+              </div>
+              <p class="custom-input-hint">6박 7일 이상의 기간을 입력할 수 있습니다.</p>
+              <button class="btn-apply-custom" id="applyCustomPeriod">적용하기</button>
+            </div>
           </div>
           
           <div class="step-actions">
@@ -226,6 +274,56 @@
           <div class="step-actions">
             <button class="btn-back" onclick="goToStep(4)">이전</button>
             <button class="btn-primary" id="generatePlanBtn">계획 생성하기</button>
+          </div>
+        </div>
+
+        <!-- Chat Mode Step -->
+        <div class="plan-step" id="stepChat">
+          <div class="step-header">
+            <h2>AI 챗봇과 대화하기</h2>
+            <p class="step-desc">자유롭게 대화하며 여행 계획을 만들어보세요. 도시, 기간, 동행자, 여행 스타일 등을 자연스럽게 말씀해주세요.</p>
+          </div>
+          
+          <div class="chat-mode-container">
+            <div class="chat-interface-full">
+              <div class="chat-messages-full" id="chatMessagesFull">
+                <div class="chat-msg ai">
+                  <div class="msg-avatar">트리피</div>
+                  <div class="msg-bubble">
+                    안녕! 나는 트리피야! 😊<br>
+                    너의 완벽한 여행 계획을 도와줄게.<br><br>
+                    어떤 도시로 여행을 가고 싶어? 기간은 얼마나 될까?<br>
+                    자유롭게 말해줘!
+                  </div>
+                </div>
+              </div>
+              <div class="chat-input-area-full">
+                <input type="text" id="chatInputFull" placeholder="메시지를 입력하세요..." class="chat-input-full">
+                <button class="chat-send-btn-full" id="sendChatBtnFull">전송</button>
+              </div>
+            </div>
+            
+            <div class="chat-info-panel">
+              <h3>수집된 정보</h3>
+              <div class="info-collected">
+                <div class="info-item">
+                  <strong>도시:</strong> <span id="chatRegion">-</span>
+                </div>
+                <div class="info-item">
+                  <strong>기간:</strong> <span id="chatPeriod">-</span>
+                </div>
+                <div class="info-item">
+                  <strong>동행자:</strong> <span id="chatWho">-</span>
+                </div>
+                <div class="info-item">
+                  <strong>스타일:</strong> <span id="chatStyle">-</span>
+                </div>
+              </div>
+              <div class="chat-actions">
+                <button class="btn-back" onclick="goToStep(0)">이전</button>
+                <button class="btn-primary" id="generatePlanFromChatBtn" disabled>계획 생성하기</button>
+              </div>
+            </div>
           </div>
         </div>
 

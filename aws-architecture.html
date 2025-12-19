@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TRIPPY AWS 아키텍처</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f5f5;
+      padding: 40px 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #0bd19d;
+      margin-bottom: 10px;
+      font-size: 32px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #666;
+      margin-bottom: 40px;
+      font-size: 16px;
+    }
+
+    .architecture-diagram {
+      width: 100%;
+      min-height: 1200px;
+      position: relative;
+      background: #f8f9fa;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 50px 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    /* Service Boxes */
+    .service-box {
+      background: white;
+      border: 2px solid #232f3e;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 220px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      margin: 0 auto;
+    }
+
+    .service-icon {
+      width: 56px;
+      height: 56px;
+      background: #ff9900;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      margin: 0 auto 12px;
+    }
+
+    .service-name {
+      font-weight: 700;
+      font-size: 16px;
+      color: #232f3e;
+      margin-bottom: 8px;
+    }
+
+    .service-desc {
+      font-size: 12px;
+      color: #666;
+      line-height: 1.5;
+    }
+
+    /* Client */
+    .client {
+      border-color: #4285f4;
+    }
+
+    .client .service-icon {
+      background: #4285f4;
+    }
+
+    /* Route 53 */
+    .route53 .service-icon {
+      background: #232f3e;
+    }
+
+    /* EC2 */
+    .ec2 .service-icon {
+      background: #ff9900;
+    }
+
+    /* Bedrock */
+    .bedrock .service-icon {
+      background: #ff9900;
+    }
+
+    /* Aurora */
+    .aurora .service-icon {
+      background: #3f48cc;
+    }
+
+    /* S3 */
+    .s3 .service-icon {
+      background: #569a31;
+    }
+
+    /* MCP Servers */
+    .mcp .service-icon {
+      background: #9333ea;
+    }
+
+    /* External APIs */
+    .external-api .service-icon {
+      background: #dc2626;
+    }
+
+    /* Layer containers */
+    .layer {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      margin: 0;
+      z-index: 2;
+    }
+
+    .layer-bottom {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      gap: 40px;
+    }
+
+    .layer-middle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      padding: 0 100px;
+    }
+
+    .layer-middle-left {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+      flex: 0 0 auto;
+    }
+
+    .layer-middle-center {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 0 0 auto;
+    }
+
+    .layer-middle-right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 0 0 auto;
+    }
+
+    .layer-left-right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      gap: 30px;
+    }
+
+    .layer-mcp {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .layer-external {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+    }
+
+    .service-box.small {
+      width: 180px;
+      padding: 15px;
+    }
+
+    .service-box.small .service-icon {
+      width: 48px;
+      height: 48px;
+      font-size: 14px;
+    }
+
+    .service-box.small .service-name {
+      font-size: 14px;
+    }
+
+    .service-box.small .service-desc {
+      font-size: 11px;
+    }
+
+    /* Connection Lines */
+    .connection-line {
+      position: absolute;
+      background: #232f3e;
+      z-index: 1;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .line-vertical {
+      width: 2px;
+    }
+
+    /* Arrow */
+    .arrow-down {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 12px solid #232f3e;
+      z-index: 1;
+    }
+
+    /* Legend */
+    .legend {
+      margin-top: 40px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+
+    .legend h3 {
+      margin-bottom: 16px;
+      color: #232f3e;
+      font-size: 18px;
+    }
+
+    .legend-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: white;
+      border-radius: 6px;
+    }
+
+    .legend-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      color: white;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+
+    .legend-text {
+      font-size: 13px;
+      color: #333;
+    }
+
+    /* Data Flow */
+    .data-flow {
+      margin-top: 40px;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+
+    .data-flow h3 {
+      margin-bottom: 16px;
+      color: #232f3e;
+      font-size: 18px;
+    }
+
+    .data-flow ol {
+      line-height: 2;
+      color: #333;
+      padding-left: 20px;
+    }
+
+    /* Spacing helpers */
+    .spacer {
+      height: 50px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>TRIPPY AWS 아키텍처</h1>
+    <p class="subtitle">클라우드 인프라 구조</p>
+
+    <div class="architecture-diagram" id="diagram">
+      <!-- Connection Lines SVG -->
+      <svg id="connectionSvg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; pointer-events: none;">
+        <defs>
+          <marker id="arrowhead-black" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+            <polygon points="0 0, 10 3, 0 6" fill="#232f3e"/>
+          </marker>
+          <marker id="arrowhead-orange" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+            <polygon points="0 0, 10 3, 0 6" fill="#ff9900"/>
+          </marker>
+          <marker id="arrowhead-blue" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+            <polygon points="0 0, 10 3, 0 6" fill="#3f48cc"/>
+          </marker>
+          <marker id="arrowhead-green" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+            <polygon points="0 0, 10 3, 0 6" fill="#569a31"/>
+          </marker>
+          <marker id="arrowhead-purple" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+            <polygon points="0 0, 10 3, 0 6" fill="#9333ea"/>
+          </marker>
+          <marker id="arrowhead-red" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+            <polygon points="0 0, 10 3, 0 6" fill="#dc2626"/>
+          </marker>
+        </defs>
+      </svg>
+
+      <!-- Client Layer -->
+      <div class="layer">
+        <div class="service-box client" id="box-client">
+          <div class="service-icon">Client</div>
+          <div class="service-name">Client</div>
+          <div class="service-desc">웹 브라우저<br>사용자 인터페이스</div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <!-- Route 53 Layer -->
+      <div class="layer">
+        <div class="service-box route53" id="box-route53">
+          <div class="service-icon">R53</div>
+          <div class="service-name">Route 53</div>
+          <div class="service-desc">도메인 DNS 관리<br>트래픽 라우팅</div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <!-- Middle Layer: Aurora/S3 (왼쪽 세로) - EC2 (가운데) - Bedrock (오른쪽) -->
+      <div class="layer-middle">
+        <!-- 왼쪽: Aurora와 S3 세로 배치 -->
+        <div class="layer-middle-left">
+          <div class="service-box aurora" id="box-aurora">
+            <div class="service-icon">A</div>
+            <div class="service-name">Amazon Aurora</div>
+            <div class="service-desc">관계형 DB<br>사용자 & 여행 데이터</div>
+          </div>
+
+          <div class="service-box s3" id="box-s3">
+            <div class="service-icon">S3</div>
+            <div class="service-name">Amazon S3</div>
+            <div class="service-desc">로그 저장<br>정적 파일 저장</div>
+          </div>
+        </div>
+
+        <!-- 가운데: EC2 -->
+        <div class="layer-middle-center">
+          <div class="service-box ec2" id="box-ec2">
+            <div class="service-icon">EC2</div>
+            <div class="service-name">EC2</div>
+            <div class="service-desc">웹 서버<br>애플리케이션 서버<br>Tool Use 처리</div>
+          </div>
+        </div>
+
+        <!-- 오른쪽: Bedrock -->
+        <div class="layer-middle-right">
+          <div class="service-box bedrock" id="box-bedrock">
+            <div class="service-icon">BR</div>
+            <div class="service-name">Amazon Bedrock</div>
+            <div class="service-desc">Claude AI (Tool Use)<br>챗봇 & 계획 생성<br>함수 호출 결정</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+
+      <!-- MCP Servers Layer -->
+      <div class="layer-mcp">
+        <div class="service-box mcp small" id="box-mcp-places">
+          <div class="service-icon">GM</div>
+          <div class="service-name">Google Maps MCP</div>
+          <div class="service-desc">장소 검색<br>위도/경도 추출<br>주변 맛집 & 리뷰</div>
+        </div>
+
+        <div class="service-box mcp small" id="box-mcp-weather">
+          <div class="service-icon">OM</div>
+          <div class="service-name">Open-Meteo MCP</div>
+          <div class="service-desc">날씨 예보<br>실시간 기상 정보</div>
+        </div>
+
+        <div class="service-box mcp small" id="box-mcp-currency">
+          <div class="service-icon">CE</div>
+          <div class="service-name">Currency Exchange MCP</div>
+          <div class="service-desc">실시간 환율<br>통화 변환</div>
+        </div>
+
+        <div class="service-box mcp small" id="box-mcp-travel">
+          <div class="service-icon">TM</div>
+          <div class="service-name">Travel MCP Server</div>
+          <div class="service-desc">항공권 검색<br>호텔 예약<br>예산 계산기</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function getBoxCenter(boxId) {
+        const box = document.getElementById(boxId);
+        if (!box) return null;
+        const rect = box.getBoundingClientRect();
+        const diagram = document.getElementById('diagram');
+        const diagramRect = diagram.getBoundingClientRect();
+        return {
+          x: rect.left + rect.width / 2 - diagramRect.left,
+          y: rect.top + rect.height / 2 - diagramRect.top
+        };
+      }
+
+      function drawConnections() {
+        const svg = document.getElementById('connectionSvg');
+        const diagram = document.getElementById('diagram');
+        const diagramRect = diagram.getBoundingClientRect();
+        
+        // Clear existing lines
+        const existingLines = svg.querySelectorAll('line');
+        existingLines.forEach(line => line.remove());
+
+        // Get box centers
+        const client = getBoxCenter('box-client');
+        const route53 = getBoxCenter('box-route53');
+        const ec2 = getBoxCenter('box-ec2');
+        const bedrock = getBoxCenter('box-bedrock');
+        const mcpPlaces = getBoxCenter('box-mcp-places');
+        const mcpWeather = getBoxCenter('box-mcp-weather');
+        const mcpCurrency = getBoxCenter('box-mcp-currency');
+        const mcpTravel = getBoxCenter('box-mcp-travel');
+        const aurora = getBoxCenter('box-aurora');
+        const s3 = getBoxCenter('box-s3');
+
+        if (!client || !route53 || !ec2 || !bedrock || !aurora || !s3) return;
+
+        // Client to Route 53
+        const line1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line1.setAttribute('x1', client.x);
+        line1.setAttribute('y1', client.y + 70);
+        line1.setAttribute('x2', route53.x);
+        line1.setAttribute('y2', route53.y - 70);
+        line1.setAttribute('stroke', '#232f3e');
+        line1.setAttribute('stroke-width', '2');
+        line1.setAttribute('marker-end', 'url(#arrowhead-black)');
+        svg.appendChild(line1);
+
+        // Route 53 to EC2
+        const line2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line2.setAttribute('x1', route53.x);
+        line2.setAttribute('y1', route53.y + 70);
+        line2.setAttribute('x2', ec2.x);
+        line2.setAttribute('y2', ec2.y - 70);
+        line2.setAttribute('stroke', '#232f3e');
+        line2.setAttribute('stroke-width', '2');
+        line2.setAttribute('marker-end', 'url(#arrowhead-black)');
+        svg.appendChild(line2);
+
+        // EC2 to Bedrock
+        const line3 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line3.setAttribute('x1', ec2.x);
+        line3.setAttribute('y1', ec2.y);
+        line3.setAttribute('x2', bedrock.x);
+        line3.setAttribute('y2', bedrock.y);
+        line3.setAttribute('stroke', '#ff9900');
+        line3.setAttribute('stroke-width', '2');
+        line3.setAttribute('marker-end', 'url(#arrowhead-orange)');
+        svg.appendChild(line3);
+
+        // Bedrock to EC2
+        const lineBedrockEC2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        lineBedrockEC2.setAttribute('x1', bedrock.x);
+        lineBedrockEC2.setAttribute('y1', bedrock.y);
+        lineBedrockEC2.setAttribute('x2', ec2.x);
+        lineBedrockEC2.setAttribute('y2', ec2.y);
+        lineBedrockEC2.setAttribute('stroke', '#ff9900');
+        lineBedrockEC2.setAttribute('stroke-width', '2');
+        lineBedrockEC2.setAttribute('marker-end', 'url(#arrowhead-orange)');
+        svg.appendChild(lineBedrockEC2);
+
+        // EC2 to Aurora
+        const lineEC2Aurora = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        lineEC2Aurora.setAttribute('x1', ec2.x);
+        lineEC2Aurora.setAttribute('y1', ec2.y);
+        lineEC2Aurora.setAttribute('x2', aurora.x);
+        lineEC2Aurora.setAttribute('y2', aurora.y);
+        lineEC2Aurora.setAttribute('stroke', '#3f48cc');
+        lineEC2Aurora.setAttribute('stroke-width', '2');
+        lineEC2Aurora.setAttribute('marker-end', 'url(#arrowhead-blue)');
+        svg.appendChild(lineEC2Aurora);
+
+        // EC2 to S3
+        const lineEC2S3 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        lineEC2S3.setAttribute('x1', ec2.x);
+        lineEC2S3.setAttribute('y1', ec2.y);
+        lineEC2S3.setAttribute('x2', s3.x);
+        lineEC2S3.setAttribute('y2', s3.y);
+        lineEC2S3.setAttribute('stroke', '#569a31');
+        lineEC2S3.setAttribute('stroke-width', '2');
+        lineEC2S3.setAttribute('marker-end', 'url(#arrowhead-green)');
+        svg.appendChild(lineEC2S3);
+
+        // EC2 to MCP Servers
+        if (mcpPlaces && mcpWeather && mcpCurrency && mcpTravel) {
+          const lineEC2MCP1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          lineEC2MCP1.setAttribute('x1', ec2.x);
+          lineEC2MCP1.setAttribute('y1', ec2.y + 70);
+          lineEC2MCP1.setAttribute('x2', mcpPlaces.x);
+          lineEC2MCP1.setAttribute('y2', mcpPlaces.y - 60);
+          lineEC2MCP1.setAttribute('stroke', '#9333ea');
+          lineEC2MCP1.setAttribute('stroke-width', '2');
+          lineEC2MCP1.setAttribute('marker-end', 'url(#arrowhead-purple)');
+          svg.appendChild(lineEC2MCP1);
+
+          const lineEC2MCP2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          lineEC2MCP2.setAttribute('x1', ec2.x);
+          lineEC2MCP2.setAttribute('y1', ec2.y + 70);
+          lineEC2MCP2.setAttribute('x2', mcpWeather.x);
+          lineEC2MCP2.setAttribute('y2', mcpWeather.y - 60);
+          lineEC2MCP2.setAttribute('stroke', '#9333ea');
+          lineEC2MCP2.setAttribute('stroke-width', '2');
+          lineEC2MCP2.setAttribute('marker-end', 'url(#arrowhead-purple)');
+          svg.appendChild(lineEC2MCP2);
+
+          const lineEC2MCP3 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          lineEC2MCP3.setAttribute('x1', ec2.x);
+          lineEC2MCP3.setAttribute('y1', ec2.y + 70);
+          lineEC2MCP3.setAttribute('x2', mcpCurrency.x);
+          lineEC2MCP3.setAttribute('y2', mcpCurrency.y - 60);
+          lineEC2MCP3.setAttribute('stroke', '#9333ea');
+          lineEC2MCP3.setAttribute('stroke-width', '2');
+          lineEC2MCP3.setAttribute('marker-end', 'url(#arrowhead-purple)');
+          svg.appendChild(lineEC2MCP3);
+
+          const lineEC2MCP4 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          lineEC2MCP4.setAttribute('x1', ec2.x);
+          lineEC2MCP4.setAttribute('y1', ec2.y + 70);
+          lineEC2MCP4.setAttribute('x2', mcpTravel.x);
+          lineEC2MCP4.setAttribute('y2', mcpTravel.y - 60);
+          lineEC2MCP4.setAttribute('stroke', '#9333ea');
+          lineEC2MCP4.setAttribute('stroke-width', '2');
+          lineEC2MCP4.setAttribute('marker-end', 'url(#arrowhead-purple)');
+          svg.appendChild(lineEC2MCP4);
+
+          // MCP Servers to EC2
+          const lineMCPEC2_1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          lineMCPEC2_1.setAttribute('x1', mcpPlaces.x);
+          lineMCPEC2_1.setAttribute('y1', mcpPlaces.y + 60);
+          lineMCPEC2_1.setAttribute('x2', ec2.x);
+          lineMCPEC2_1.setAttribute('y2', ec2.y + 70);
+          lineMCPEC2_1.setAttribute('stroke', '#9333ea');
+          lineMCPEC2_1.setAttribute('stroke-width', '2');
+          lineMCPEC2_1.setAttribute('marker-end', 'url(#arrowhead-purple)');
+          svg.appendChild(lineMCPEC2_1);
+
+          const lineMCPEC2_2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          lineMCPEC2_2.setAttribute('x1', mcpWeather.x);
+          lineMCPEC2_2.setAttribute('y1', mcpWeather.y + 60);
+          lineMCPEC2_2.setAttribute('x2', ec2.x);
+          lineMCPEC2_2.setAttribute('y2', ec2.y + 70);
+          lineMCPEC2_2.setAttribute('stroke', '#9333ea');
+          lineMCPEC2_2.setAttribute('stroke-width', '2');
+          lineMCPEC2_2.setAttribute('marker-end', 'url(#arrowhead-purple)');
+          svg.appendChild(lineMCPEC2_2);
+
+          const lineMCPEC2_3 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          lineMCPEC2_3.setAttribute('x1', mcpCurrency.x);
+          lineMCPEC2_3.setAttribute('y1', mcpCurrency.y + 60);
+          lineMCPEC2_3.setAttribute('x2', ec2.x);
+          lineMCPEC2_3.setAttribute('y2', ec2.y + 70);
+          lineMCPEC2_3.setAttribute('stroke', '#9333ea');
+          lineMCPEC2_3.setAttribute('stroke-width', '2');
+          lineMCPEC2_3.setAttribute('marker-end', 'url(#arrowhead-purple)');
+          svg.appendChild(lineMCPEC2_3);
+
+          const lineMCPEC2_4 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          lineMCPEC2_4.setAttribute('x1', mcpTravel.x);
+          lineMCPEC2_4.setAttribute('y1', mcpTravel.y + 60);
+          lineMCPEC2_4.setAttribute('x2', ec2.x);
+          lineMCPEC2_4.setAttribute('y2', ec2.y + 70);
+          lineMCPEC2_4.setAttribute('stroke', '#9333ea');
+          lineMCPEC2_4.setAttribute('stroke-width', '2');
+          lineMCPEC2_4.setAttribute('marker-end', 'url(#arrowhead-purple)');
+          svg.appendChild(lineMCPEC2_4);
+        }
+
+      }
+
+      // Draw connections when page loads
+      window.addEventListener('load', drawConnections);
+      // Redraw on window resize
+      window.addEventListener('resize', drawConnections);
+    </script>
+
+    <div class="legend">
+      <h3>아키텍처 구성 요소</h3>
+      <div class="legend-items">
+        <div class="legend-item">
+          <div class="legend-icon" style="background: #4285f4;">Client</div>
+          <div class="legend-text">
+            <strong>Client</strong><br>
+            웹 브라우저를 통한 사용자 인터페이스
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-icon" style="background: #232f3e;">R53</div>
+          <div class="legend-text">
+            <strong>Route 53</strong><br>
+            도메인 DNS 관리 및 트래픽 라우팅
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-icon" style="background: #ff9900;">EC2</div>
+          <div class="legend-text">
+            <strong>EC2</strong><br>
+            웹 서버 및 애플리케이션 서버
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-icon" style="background: #ff9900;">BR</div>
+          <div class="legend-text">
+            <strong>Amazon Bedrock</strong><br>
+            Claude AI (Tool Use)를 통한 챗봇 및 여행 계획 생성
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-icon" style="background: #9333ea;">MCP</div>
+          <div class="legend-text">
+            <strong>MCP Servers</strong><br>
+            Google Maps, Open-Meteo, Currency Exchange, Travel MCP Server
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-icon" style="background: #3f48cc;">A</div>
+          <div class="legend-text">
+            <strong>Amazon Aurora</strong><br>
+            관계형 데이터베이스 (MySQL/PostgreSQL)
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-icon" style="background: #569a31;">S3</div>
+          <div class="legend-text">
+            <strong>Amazon S3</strong><br>
+            로그 저장 및 정적 파일 저장소
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="data-flow">
+      <h3>데이터 흐름 (Tool Use & MCP 기반)</h3>
+      <ol>
+        <li><strong>Client</strong> → Route 53을 통해 도메인 해석</li>
+        <li><strong>Route 53</strong> → EC2 웹 서버로 요청 전달</li>
+        <li><strong>EC2</strong> → Bedrock (Claude AI)에 사용자 요청 전달 (Tool 정의 포함)</li>
+        <li><strong>Bedrock</strong> → Tool Use를 통해 필요한 정보 판단 및 함수 호출 요청 반환</li>
+        <li><strong>EC2</strong> → MCP 서버들에 Tool 실행 요청 (Google Maps, Open-Meteo, Currency Exchange, Travel MCP Server)</li>
+        <li><strong>MCP Servers</strong> → EC2로 정보 반환 (장소, 날씨, 환율, 항공/숙박 정보)</li>
+        <li><strong>EC2</strong> → Tool 실행 결과를 Bedrock에 다시 전달</li>
+        <li><strong>Bedrock</strong> → 실제 데이터 기반으로 최종 여행 계획 생성 (채팅 메시지 + 구조화된 JSON)</li>
+        <li><strong>EC2</strong> → Aurora에 사용자 데이터 및 여행 일정 저장</li>
+        <li><strong>EC2</strong> → S3에 로그 및 정적 파일 저장</li>
+        <li><strong>EC2</strong> → Client에 채팅 응답 및 구조화된 여행 계획 전달</li>
+      </ol>
+    </div>
+  </div>
+</body>
+</html>
